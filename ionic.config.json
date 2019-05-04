@@ -1,5 +1,7 @@
 {
   "name": "cdp_journal_mobile",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

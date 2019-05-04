@@ -1,14 +1,29 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
+  <ion-toolbar style="--background:coral" *ngIf="user != null">
+    <ion-title style="color: white;font-weight: bold">CDP JOURNALS</ion-title>
+    <ion-buttons slot="start" style="color:white"  *ngIf="user['name'] != 'Guest'">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+   <span slot="end" *ngIf="user['name'] == 'Guest'"><ion-icon name="add-circle" size="mini" style="color:white;font-size: 42px" (click)="navigateToRegisterSubscriber()"></ion-icon></span>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
-  </div>
+<ion-content *ngIf="user != null">
+  <ion-row>
+    <ion-col text-left *ngIf="user['name'] != 'Guest'">
+        Online + Print <ion-checkbox (ionChange)="updatePrintNeed($event)" [(ngModel)]="need_print"></ion-checkbox>
+    </ion-col>
+    <ion-col text-right style="margin-top:10px;margin-right:15px;text-transform: capitalize">
+      Hello ! <span>{{user['name']}}</span><br>
+    </ion-col>
+  </ion-row>
+<ion-row style="margin-left: 5px;margin-right: 5px;">
+  <ion-col size="4" *ngFor="let journal of journal_datas" (click)="getPdfdocument(journal)">
+    <ion-card>
+      <img  src="data:image/jpeg;base64,{{ journal['thumbnail'] }}">
+      <span style="margin-left: 34px;font-weight: bold;"> {{ journal['published_date'] | date:'MMM' }}</span>
+    </ion-card>
+  </ion-col>
+</ion-row>
+
 </ion-content>
