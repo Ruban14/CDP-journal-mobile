@@ -43,7 +43,7 @@ export class HomePage implements OnInit {
   }
 
   navigateToRegisterSubscriber() {
-    this.navCtrl.navigateForward('/register-subscriber')
+    this.navCtrl.navigateForward('/login')
   }
 
   updatePrintNeed(event) {

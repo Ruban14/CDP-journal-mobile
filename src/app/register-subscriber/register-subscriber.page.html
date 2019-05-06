@@ -4,92 +4,88 @@
     <ion-buttons slot="start" style="color:white">
         <ion-back-button></ion-back-button>
       </ion-buttons>
+      <ion-icon slot="end" name="home" style="color:white; zoom:2;" (click)="navigateToHome()"></ion-icon>
   </ion-toolbar>
+ 
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="subscriber_register" (ngSubmit)="onSubscribeRegister()">
     <ion-row>
       <ion-col>
         <ion-item lines="none" style="border-bottom:1px solid grey;margin-left:10px;margin-right:10px ">
-          <ion-label position="floating">Name</ion-label>
-          <ion-input formControlName="name"></ion-input>
+          <ion-label position="floating" >Name <span style="color:red">*</span></ion-label>
+          <ion-input [(ngModel)]="name"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="subscriber_type['print'] == 'print' ">
       <ion-col>
         <ion-item lines="none" style="border-bottom:1px solid grey;margin-left:10px;margin-right:10px ">
-          <ion-label position="floating">Street address</ion-label>
-          <ion-input formControlName="street_address"></ion-input>
+          <ion-label position="floating">Street address <span style="color:red">*</span></ion-label>
+          <ion-input [(ngModel)]="street_address"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="subscriber_type['print'] == 'print'">
       <ion-col>
         <ion-item lines="none" style="border-bottom:1px solid grey;margin-left:10px;margin-right:10px ">
-          <ion-label position="floating">State</ion-label>
-          <ion-input formControlName="state"></ion-input>
+          <ion-label position="floating">State <span style="color:red">*</span></ion-label>
+          <ion-input [(ngModel)]="state"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col>
         <ion-item lines="none" style="border-bottom:1px solid grey;margin-left:10px;margin-right:10px ">
-          <ion-label position="floating">District</ion-label>
-          <ion-input formControlName="district"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-item lines="none" style="border-bottom:1px solid grey;margin-left:10px;margin-right:10px ">
-          <ion-label position="floating">Taluk</ion-label>
-          <ion-input formControlName="taluk"></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col>
-        <ion-item lines="none" style="border-bottom:1px solid grey;margin-left:10px;margin-right:10px ">
-          <ion-label position="floating">Pincode</ion-label>
-          <ion-input type="number" formControlName="pincode"></ion-input>
+          <ion-label position="floating">District <span style="color:red">*</span></ion-label>
+          <ion-input [(ngModel)]="district"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col>
+    <ion-row >
+      <ion-col *ngIf="subscriber_type['print'] == 'print' ">
         <ion-item lines="none" style="border-bottom:1px solid grey;margin-left:10px;margin-right:10px ">
-          <ion-label position="floating">Phone number</ion-label>
-          <ion-input type="number" formControlName="phone_number"></ion-input>
+          <ion-label position="floating">Taluk <span style="color:red">*</span></ion-label>
+          <ion-input [(ngModel)]="taluk"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col *ngIf="subscriber_type['print'] == 'print' || subscriber_type['print'] == 'online' ">
+        <ion-item lines="none" style="border-bottom:1px solid grey;margin-left:10px;margin-right:10px ">
+          <ion-label position="floating">Pincode <span style="color:red">*</span></ion-label>
+          <ion-input type="number"[(ngModel)]="pincode" ></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="subscriber_type['print'] == print || this.subscriber_type['print'] == 'online'">
+      <ion-col>
+        <ion-item lines="none" style="border-bottom:1px solid grey;margin-left:10px;margin-right:10px ">
+          <ion-label position="floating">Phone number <span style="color:red">*</span></ion-label>
+          <ion-input type="number" [(ngModel)]="phone_number" ></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+          <ion-item lines="none" style="border-bottom:1px solid grey;margin-left:10px;margin-right:10px ">
+            <ion-label position="floating">E - mail </ion-label>
+            <ion-input type="email" [(ngModel)]="email" ></ion-input>
+          </ion-item>
+        </ion-col>
+    </ion-row>
+    <ion-row *ngIf="subscriber_type['print'] == 'print' || this.subscriber_type['print'] == 'online'">
       <ion-col>
         <ion-item lines="none" style="border-bottom:1px solid grey;margin-left:10px;margin-right:10px ">
           <ion-label position="floating">No. of cocunut trees</ion-label>
-          <ion-input type="number" formControlName="no_of_trees"></ion-input>
+          <ion-input type="number" [(ngModel)]="no_of_trees"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col>
-        <ion-item lines="none" style="border-bottom:1px solid grey;margin-left:10px;margin-right:10px ">
+        <ion-item lines="none" style="margin-left:10px;margin-right:10px ">
           <ion-label>Purpose of trees</ion-label>
-          <ion-select formControlName="purpose_of_trees" interface="popover">
+          <ion-select  interface="popover" [(ngModel)]="purpose_of_trees">
             <ion-select-option *ngFor="let purpose of purpose_datas" [value]="purpose"> {{ purpose }}</ion-select-option></ion-select>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>
-        <ion-item lines="none" style="margin-left:10px;margin-right:10px ">
-          <ion-label>
-            Need print
-          </ion-label>
-          <ion-checkbox formControlName="need_print"></ion-checkbox>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
       <ion-col text-center>
-        <ion-button [color]="subscriber_register.valid ? 'success' : 'danger'" [disabled]="!subscriber_register.valid" type=submit>submit</ion-button>
+        <ion-button (click)="onSubscribeRegister()">submit</ion-button>
       </ion-col>
     </ion-row>
-  </form>
 </ion-content>
