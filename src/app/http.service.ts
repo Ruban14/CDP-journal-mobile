@@ -15,6 +15,10 @@ export class HttpService {
     return this.httpClient.get(this.global.server_url + 'main/serve/journal/list/');
   }
 
+  storeNameAndNumber(data){
+    return this.httpClient.post(this.global.server_url + 'main/store/name/and/number/',data)
+  }
+
   storeSubscriber(data){
     return this.httpClient.post(this.global.server_url + 'main/store/subscriber/',data)
   }
@@ -30,6 +34,14 @@ export class HttpService {
   }
   getUserTypeByName(data){
     return this.httpClient.post(this.global.server_url + 'main/get/user/detail/',data)
+  }
+
+  saveEmail(data){
+    return this.httpClient.post(this.global.server_url + 'main/store/email/',data)
+  }
+
+  serveProfileData(data){
+    return this.httpClient.post(this.global.server_url + 'main/serve/profile/data/',data)
   }
 
 }

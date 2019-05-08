@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { ToastController, NavController } from '@ionic/angular';
 import { DataTransferService } from '../provider/data-transfer.service';
+import { Storage } from '@ionic/storage';
 @Component({
   selector: 'app-register-subscriber',
   templateUrl: './register-subscriber.page.html',
@@ -23,8 +24,29 @@ export class RegisterSubscriberPage implements OnInit {
   no_of_trees: number = null;
   purpose_of_trees: string = null;
   subscriber_register_dict: any;
+  user_details: any;
 
-  constructor(private httpService: HttpService, private toastCtrl: ToastController, private navCtrl: NavController, private dataTransfer: DataTransferService) {
+  constructor(private httpService: HttpService,private Navctrl:NavController, private toastCtrl: ToastController, private navCtrl: NavController, private dataTransfer: DataTransferService, private storage: Storage) {
+
+    this.storage.get('user').then((name) => {
+      this.user_details = name
+      this.httpService.serveProfileData(name).subscribe((data) => {
+        console.log(data)
+        this.name = data['name']
+        this.street_address = data['street']
+        this.state = data['state']
+        this.taluk = data['taluk']
+        this.district = data['district']
+        this.pincode = data['pincode']
+        this.phone_number = data['phone_number']
+        this.email = data['email']
+      })
+    })
+
+
+
+
+
     // print and online details
     this.subscriber_type = dataTransfer.user_details
     console.log(this.subscriber_type)
@@ -36,73 +58,55 @@ export class RegisterSubscriberPage implements OnInit {
     });
   }
 
-  navigateToHome(){
-    this.navCtrl.navigateForward('/number-login')
+  navigateToHome() {
+    this.navCtrl.navigateForward('/')
   }
-  
+
   // store new subscriber details
   onSubscribeRegister() {
     // with print
-    if (this.subscriber_type['print'] == "print") {
-      if (this.name == null || this.street_address == null || this.state == null ||
-        this.taluk == null || this.district == null || this.pincode == null || this.phone_number == null) {
-        alert("*fields are manditory");
-        return false;
-      }
-      this.subscriber_register_dict = {
-        "name": this.name,
-        "street_address": this.street_address,
-        "state": this.state,
-        "taluk": this.taluk,
-        "district": this.district,
-        "pincode": this.pincode,
-        "phone_number": this.phone_number,
-        "purpose_of_trees": this.purpose_of_trees,
-        "no_of_trees": this.no_of_trees,
-        "email": this.email,
-        "need_print": true
-      }
+    if (this.name == null || this.street_address == null || this.state == null || this.taluk == null || this.district == null || this.pincode == null || this.phone_number == null) {
+      alert("*fields are manditory");
+      return false;
     }
-    // only online
-    if (this.subscriber_type['print'] == "online") {
-      if (this.name == null || this.phone_number == null || this.pincode == null) {
-        alert("*fields are manditory");
-        return false;
-      }
-      this.subscriber_register_dict = {
-        "name": this.name,
-        "phone_number": this.phone_number,
-        "email": this.email,
-        "purpose_of_trees": this.purpose_of_trees,
-        "no_of_trees": this.no_of_trees,
-        "need_print": false,
-        "pincode": this.pincode
-      }
+    this.subscriber_register_dict = {
+      "name": this.name,
+      "street_address": this.street_address,
+      "state": this.state,
+      "taluk": this.taluk,
+      "district": this.district,
+      "pincode": this.pincode,
+      "phone_number": this.phone_number,
+      "purpose_of_trees": this.purpose_of_trees,
+      "no_of_trees": this.no_of_trees,
+      "email": this.email,
+      "need_print": true
     }
-    // post to store data
-    console.log(this.subscriber_register_dict)
-    this.httpService.storeSubscriber(this.subscriber_register_dict).subscribe((data) => {
-      console.log(data)
-      if (data != null) {
-        this.displayToast(data)
-      }
-      else {
-        this.displayToast("registered success")
-        this.navCtrl.navigateForward('/number-login');
-      }
 
-    })
+  console.log(this.subscriber_register_dict)
+    this.httpService.storeSubscriber(this.subscriber_register_dict).subscribe((data) => {
+    console.log(data)
+    if (data != null) {
+      this.displayToast(data)
+      this.Navctrl.navigateForward('/')
+    }
+    else {
+      this.displayToast("registered success")
+      this.navCtrl.navigateForward('/');
+    }
+
+  })
   }
-  // toast
-  async displayToast(message) {
-    const toast = await this.toastCtrl.create({
-      message: message,
-      position: 'top',
-      duration: 2000
-    });
-    toast.present();
-  }
-  ngOnInit() {
-  }
+// toast
+async displayToast(message) {
+  const toast = await this.toastCtrl.create({
+    message: message,
+    position: 'top',
+    duration: 2000
+  });
+  toast.present();
+}
+ngOnInit() {
+}
 
 }

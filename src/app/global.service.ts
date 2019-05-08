@@ -7,7 +7,7 @@ import { ToastController } from '@ionic/angular';
 export class GlobalService {
   // host
   // private _server_url = 'http://localhost:8000/';
-  private _server_url = 'http://192.168.0.7:8000/';
+  private _server_url = 'http://192.168.0.11:8000/';
 
   // app version
   private _app_version: string = '0.0.1';

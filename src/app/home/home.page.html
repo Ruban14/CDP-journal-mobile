@@ -1,38 +1,32 @@
 <ion-header>
   <ion-toolbar style="--background:coral" *ngIf="user != null">
-    <ion-title style="color: white;font-weight: bold">CDP JOURNALS</ion-title>
-    <ion-buttons slot="start" style="color:white">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <span slot="end" *ngIf="user['name'] == 'Guest'">
-      <ion-icon name="add-circle" size="mini" style="color:white;font-size: 42px"
-        (click)="navigateToRegisterSubscriber()"></ion-icon>
+    <ion-title style="color: white;font-weight: bold">CDB JOURNALS</ion-title>
+    <span slot="end" style="color: white;text-transform: capitalize;display: block">
+     <ion-button size="small" color="light" fill="outline" (click)="presentAlertPrompt()" *ngIf="user['name'] == null">Guest</ion-button> 
+     <span *ngIf="user['name'] != null" style="margin-right: 15px;">Hi!, {{user['name']}}</span>
     </span>
   </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf="user != null">
   <ion-row style="margin-left:4px;margin-top: 7px;">
-    <ion-col size="6" text-left *ngIf="user['name'] != 'Guest'" style="margin-top: 3px;">
+    <!-- <ion-col size="6" text-left *ngIf="user['name'] != 'Guest'" style="margin-top: 3px;">
       Online + Print
       <ion-checkbox (ionChange)="updatePrintNeed($event)" [(ngModel)]="online" style="margin-left: 5px;margin-top: -2px;width: 15px;height: 15px;"></ion-checkbox>
-    </ion-col>
+    </ion-col> -->
     <!-- <ion-col size="6" text-left *ngIf="user['name'] != 'Guest'" style="margin-top: 3px;margin-left: -85px;">
         Print
         <ion-checkbox (ionChange)="updatePrintNeed($event)" [(ngModel)]="need_print" style="margin-left: 5px;margin-top: -2px;width: 15px;height: 15px;"></ion-checkbox>
       </ion-col> -->
-    <ion-col text-right size="6" style="margin-top:10px;text-transform: capitalize;margin-top: 3px;margin-left: -15px;" *ngIf="user['name'] != 'Guest'">
-      Hello ! <span>{{user['name']}}</span><br>
-    </ion-col>
-    <ion-col text-right size="6" style="margin-top:10px;text-transform: capitalize;margin-top: 3px;margin-left: 160px;" *ngIf="user['name'] == 'Guest'">
-        Hello ! <span>{{user['name']}}</span><br>
+    <ion-col text-right size="6" style="margin-top:10px;text-transform: capitalize;margin-top: 0px;margin-left: 171px;" >
+      <ion-button size="small" color="danger" (click)="navigateToSelectSubscription()" shape="round">Subscribe</ion-button> 
       </ion-col>
   </ion-row>
   <ion-row style="margin-left: 5px;margin-right: 5px;">
     <ion-col size="4" *ngFor="let journal of journal_datas" (click)="getPdfdocument(journal)">
       <ion-card>
         <img src="data:image/jpeg;base64,{{ journal['thumbnail'] }}">
-        <span style="margin-left: 19px;font-weight: bold;"> {{ journal['published_date'] | date:"MMM 'yy" }}</span>
+        <span style="margin-left: 19px;font-weight: bold;"> {{ journal['published_date'] | date:"MMM 'yyyy" }}</span>
       </ion-card>
     </ion-col>
   </ion-row>
