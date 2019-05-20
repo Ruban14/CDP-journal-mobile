@@ -66,7 +66,7 @@ export class RegisterSubscriberPage implements OnInit {
   onSubscribeRegister() {
     // with print
     if (this.name == null || this.street_address == null || this.state == null || this.taluk == null || this.district == null || this.pincode == null || this.phone_number == null) {
-      alert("*fields are manditory");
+      alert("*Fill the mandatory fields !");
       return false;
     }
     this.subscriber_register_dict = {
@@ -87,25 +87,16 @@ export class RegisterSubscriberPage implements OnInit {
     this.httpService.storeSubscriber(this.subscriber_register_dict).subscribe((data) => {
     console.log(data)
     if (data != null) {
-      this.displayToast(data)
       this.Navctrl.navigateForward('/')
     }
     else {
-      this.displayToast("registered success")
+      alert("Dear " + this.name +", Your address has been updated successfully!. You will start receiving print subscription at the given address as soon as possible. Thank you!")
       this.navCtrl.navigateForward('/');
     }
 
   })
   }
-// toast
-async displayToast(message) {
-  const toast = await this.toastCtrl.create({
-    message: message,
-    position: 'top',
-    duration: 2000
-  });
-  toast.present();
-}
+
 ngOnInit() {
 }
 
